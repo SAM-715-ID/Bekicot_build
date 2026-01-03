@@ -1,0 +1,3 @@
+[submodule "kernel"]
+	path = kernel
+	url = https://github.com/SAM-715-ID/kernel_Bekicot.git
