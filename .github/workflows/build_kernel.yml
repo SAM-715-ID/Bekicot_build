@@ -57,30 +57,3 @@ jobs:
           chmod +x build_boot.sh
           bash build_boot.sh
           cd ..
-
-      - name: Generate release version
-        id: ts
-        run: |
-          echo "RELEASE_TS=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
-          echo "REL_VER='Kernel version: $(cat kernel/out/include/config/kernel.release)'" >> $GITHUB_ENV
-
-
-      # 3. Upload the generated boot.img
-      - name: Upload boot.img artifact
-        uses: actions/upload-artifact@v5
-        with:
-          name: boot-image
-          path: boot.img
-
-      - name: Upload release assets
-        if: github.event.inputs.release
-        uses: softprops/action-gh-release@v2.4.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          body: "${{ env.REL_VER }}"
-          tag_name: "${{ env.RELEASE_TS }}"
-          name: "KeongBalap-${{ env.RELEASE_TS }}"
-          files: |
-            boot.img
-            dtbo.img
